@@ -9,6 +9,7 @@ import org.apache.spark.sql.streaming.OutputMode;
 import org.apache.spark.sql.streaming.StreamingQuery;
 import org.apache.spark.sql.streaming.StreamingQueryException;
 import org.apache.spark.sql.streaming.Trigger;
+import org.apache.spark.sql.types.StructType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,21 @@ public class InvoiceStreamEtlService {
     @Value("${invoice.trigger}")
     private String trigger;
 
+    private Dataset<Row> country;
+
     private static Logger logger = LoggerFactory.getLogger(InvoiceStreamEtlService.class);
 
     @PostConstruct
     public void init() {
+        StructType schema = new StructType()
+                .add("name", "string")
+                .add("code", "string");
+        country = spark.getSparkSession()
+                .read()
+                .option("header", "true")
+                .csv("/data/retail/output/dim_country");
+
+
         /*spark.getSparkSession().streams().addListener(new StreamingQueryListener() {
             @Override
             public void onQueryStarted(QueryStartedEvent queryStarted) {
@@ -49,6 +61,9 @@ public class InvoiceStreamEtlService {
 
    public void transformInvoice(Dataset<Row> invoiceDF) throws StreamingQueryException {
        Dataset<Row> invoiceDFClean = invoiceDF
+               .join(country, invoiceDF.col("Country").equalTo(country.col("name")), "left")
+               .withColumn("country_code", country.col("code"))
+               .drop(country.columns()).drop("Country")
                .withColumn("invoice_timestamp",to_timestamp(unix_timestamp(col("InvoiceDate"),"d M yyyy H:mm").cast(TimestampType)))
                .select(
                        col("InvoiceNo").alias("invoice_no"),
@@ -56,7 +71,7 @@ public class InvoiceStreamEtlService {
                        col("StockCode").alias("product_code"),
                        col("UnitPrice").alias("actual_unit_price"),
                        col("Quantity").alias("units"),
-                       //col("invoice_timestamp"),
+                       col("country_code"),
                        to_date(col("invoice_timestamp")).as("invoice_date"),
                        date_format(col("invoice_timestamp"), "yyyyMMddHHmmss").alias("date_id")
                 );
