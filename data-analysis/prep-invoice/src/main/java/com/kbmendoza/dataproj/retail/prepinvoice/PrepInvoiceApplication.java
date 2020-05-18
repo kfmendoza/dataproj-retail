@@ -80,10 +80,11 @@ public class PrepInvoiceApplication {
                 .drop(country.columns()).drop("Country")*/
                 ;
 
+
         sampleInvoiceDF.registerTempTable("invoice");
 
         Dataset<Row> productDF = sparkSession
-                .sql("SELECT product_code as code, product_name as name\n" +
+                .sql("SELECT regexp_replace(product_code, [A-Za-z]) as code, product_name as name\n" +
                         " FROM (\n" +
                         "SELECT product_code, product_name,\n" +
                         "row_number() over(partition by product_code, product_name\n" +
