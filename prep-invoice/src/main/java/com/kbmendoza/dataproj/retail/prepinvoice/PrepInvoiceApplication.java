@@ -68,6 +68,7 @@ public class PrepInvoiceApplication {
                 .withColumnRenamed("Country", "country_name")
                 .withColumn("invoice_timestamp",to_timestamp(unix_timestamp(col("InvoiceDate"),"d M yyyy H:mm").cast(TimestampType)))
                 .withColumn("invoice_date", to_date(col("invoice_timestamp")))
+                .withColumn("cal_date", to_date(col("invoice_timestamp")))
                 .withColumn("year", year(col("invoice_timestamp")))
                 .withColumn("month", month(col("invoice_timestamp")))
                 .withColumn("day", dayofmonth(col("invoice_timestamp")))
@@ -95,9 +96,9 @@ public class PrepInvoiceApplication {
         productDF.write().option("header", "true").mode(SaveMode.Overwrite).csv("s3a://dataproj/data/retail/output/dim_product/");
 
         Dataset<Row> dateDF = sparkSession
-                .sql("SELECT date_format(invoice_timestamp, \"yyyyMMddHHmmss\") AS date_id, year, month, day, hour, min\n" +
+                .sql("SELECT date_format(invoice_timestamp, \"yyyyMMddHHmmss\") AS date_id, cal_date, year, month, day, hour, min\n" +
                         " FROM invoice\n" +
-                        " GROUP BY date_id, year, month, day, hour, min\n" +
+                        " GROUP BY date_id, cal_date, year, month, day, hour, min\n" +
                         " ORDER BY 1");
         dateDF.show();
         dateDF.write().option("header", "true").mode(SaveMode.Overwrite).csv("s3a://dataproj/data/retail/output/dim_date/");
