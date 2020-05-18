@@ -67,8 +67,8 @@ public class InvoiceStreamEtlService {
                .withColumn("invoice_timestamp",to_timestamp(unix_timestamp(col("InvoiceDate"),"d M yyyy H:mm").cast(TimestampType)))
                .select(
                        col("InvoiceNo").alias("invoice_no"),
-                       col("CustomerID").alias("customer_id"),
-                       col("StockCode").alias("product_code"),
+                       regexp_replace(col("CustomerID"), "[A-Za-z]", "").alias("customer_id"),
+                       regexp_replace(col("StockCode"), "[A-Za-z]", "").alias("product_code"),
                        col("UnitPrice").alias("actual_unit_price"),
                        col("Quantity").alias("units"),
                        col("country_code"),
@@ -82,7 +82,7 @@ public class InvoiceStreamEtlService {
 
        //WindowSpec windowSpec = Window.partitionBy("invoice_no").orderBy(asc("invoice_timestamp"));
        Dataset<FactInvoiceLine> factInvoiceLine = invoiceDFClean
-                .select("invoice_date", "invoice_no", "customer_id", "country_code", "product_code", "actual_unit_price", "units", "date_id")
+                .selectExpr("invoice_date", "invoice_no", "customer_id", "country_code", "product_code", "actual_unit_price", "units", "date_id")
                 .as(Encoders.bean(FactInvoiceLine.class));
                 //.withColumn("invoice_line_no", row_number().over(windowSpec));
 
