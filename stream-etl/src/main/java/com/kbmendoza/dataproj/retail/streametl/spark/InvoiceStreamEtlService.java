@@ -43,7 +43,7 @@ public class InvoiceStreamEtlService {
         country = spark.getSparkSession()
                 .read()
                 .option("header", "true")
-                .csv("/data/retail/output/dim_country");
+                .csv("s3a://dataproj/data/retail/output/dim_country");
 
 
         /*spark.getSparkSession().streams().addListener(new StreamingQueryListener() {
@@ -91,8 +91,8 @@ public class InvoiceStreamEtlService {
                .writeStream()
                .format("csv")
                .option("header", "true")
-               .option("checkpointLocation", "/spark-checkpoint/dataproj-retail")
-               .option("path", "/data/retail/output/fact_invoice/")
+               .option("checkpointLocation", "s3a://dataproj-spark-checkpoints/dataproj-retail")
+               .option("path", "s3a://dataproj/data/retail/output/fact_invoice/")
                .partitionBy("invoice_date")
                .outputMode(OutputMode.Append())
                .trigger(Trigger.ProcessingTime(trigger))

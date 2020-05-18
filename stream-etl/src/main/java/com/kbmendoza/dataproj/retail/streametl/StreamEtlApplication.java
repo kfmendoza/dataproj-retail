@@ -48,7 +48,7 @@ public class StreamEtlApplication {
                 .option("sep", ",")
                 .option("header", true)
                 .schema(schema)
-                .csv("/data/retail/input/invoice-dump/*.csv");
+                .csv("s3a://dataproj/data/retail/input/invoice-dump/*.csv");
 
         streamEtlService.transformInvoice(invoiceDF);
 

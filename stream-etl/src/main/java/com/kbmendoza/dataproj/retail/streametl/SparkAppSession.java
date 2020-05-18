@@ -29,5 +29,8 @@ public class SparkAppSession {
                 .master(sparkAppConfig.getMaster())
                 .config(conf)
                 .getOrCreate();
+        sparkSession.sparkContext().hadoopConfiguration().set("spark.hadoop.f3.s3a.impl",
+                "org.apache.hadoop.fs.s3a.S3AFileSystem");
+
     }
 }

@@ -35,6 +35,8 @@ public class PrepInvoiceApplication {
                 .master(sparkAppConfig.getMaster())
                 .config(conf)
                 .getOrCreate();
+        sparkSession.sparkContext().hadoopConfiguration().set("spark.hadoop.f3.s3a.impl",
+                "org.apache.hadoop.fs.s3a.S3AFileSystem");
 
         StructType schema = new StructType()
                 .add("InvoiceNo", "string")
@@ -46,15 +48,15 @@ public class PrepInvoiceApplication {
                 .add("CustomerID", "string")
                 .add("Country", "string");
 
-        Dataset<Row> country = sparkSession
+        /*Dataset<Row> country = sparkSession
                                 .read()
                                 .option("header", "true")
-                                .csv("/data/retail/output/dim_country");
+                                .csv("/data/retail/output/dim_country");*/
 
         Dataset<Row> sampleInvoiceDF = sparkSession.read()
                                         .option("header", "true")
                                         .schema(schema)
-                                        .csv("/data/retail/sample/");
+                                        .csv("s3a://dataproj/data/retail/sample/");
 
         sampleInvoiceDF = sampleInvoiceDF
                 .withColumnRenamed("InvoiceNo", "invoice_no")
@@ -71,18 +73,26 @@ public class PrepInvoiceApplication {
                 .withColumn("day", dayofmonth(col("invoice_timestamp")))
                 .withColumn("hour", hour(col("invoice_timestamp")))
                 .withColumn("min", minute(col("invoice_timestamp")))
-                .drop(col("InvoiceDate"));
-
+                .drop(col("InvoiceDate"))
+                /*.join(country, sampleInvoiceDF.col("Country").equalTo(country.col("name")), "left")
+                .withColumn("country_code", country.col("code"))
+                .drop(country.columns()).drop("Country")*/
+                ;
 
         sampleInvoiceDF.registerTempTable("invoice");
+
         Dataset<Row> productDF = sparkSession
                 .sql("SELECT product_code as code, product_name as name\n" +
-                        " FROM invoice\n" +
-                        " WHERE trim(product_name) != ''\n" +
-                        " GROUP BY product_code, product_name\n" +
+                        " FROM (\n" +
+                        "SELECT product_code, product_name,\n" +
+                        "row_number() over(partition by product_code, product_name\n" +
+                        "order by invoice_timestamp desc) row_num\n" +
+                        "FROM invoice" +
+                        " WHERE trim(product_name) != '') a\n" +
+                        " WHERE a.row_num = 1\n" +
                         " ORDER BY 1, 2 ASC");
         productDF.show();
-        productDF.write().option("header", "true").mode(SaveMode.Overwrite).csv("/data/retail/output/dim_product/");
+        productDF.write().option("header", "true").mode(SaveMode.Overwrite).csv("s3a://dataproj/data/retail/output/dim_product/");
 
         Dataset<Row> dateDF = sparkSession
                 .sql("SELECT date_format(invoice_timestamp, \"yyyyMMddHHmmss\") AS date_id, year, month, day, hour, min\n" +
@@ -90,13 +100,13 @@ public class PrepInvoiceApplication {
                         " GROUP BY date_id, year, month, day, hour, min\n" +
                         " ORDER BY 1");
         dateDF.show();
-        dateDF.write().option("header", "true").mode(SaveMode.Overwrite).csv("/data/retail/output/dim_date/");
+        dateDF.write().option("header", "true").mode(SaveMode.Overwrite).csv("s3a://dataproj/data/retail/output/dim_date/");
 
 
         Dataset<Row> customerDF = sparkSession
-                .sql("SELECT customer_id AS id, ROW_NUMBER OVER(PARTITION by customerid, countr");
-
-        Dataset<Row> addressDF =
+                .sql("SELECT DISTINCT(customer_id) AS id\n" +
+                        " FROM invoice");
+        customerDF.write().option("header", "true").mode(SaveMode.Overwrite).csv("s3a://dataproj/data/retail/output/dim_customer");
     }
 
 }
