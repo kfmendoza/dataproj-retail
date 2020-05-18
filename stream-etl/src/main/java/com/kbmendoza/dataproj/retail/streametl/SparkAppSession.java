@@ -26,7 +26,7 @@ public class SparkAppSession {
         sparkSession = SparkSession
                 .builder()
                 .appName(sparkAppConfig.getAppName())
-                .master(sparkAppConfig.getMaster())
+                //.master(sparkAppConfig.getMaster())
                 .config(conf)
                 .getOrCreate();
         sparkSession.sparkContext().hadoopConfiguration().set("spark.hadoop.f3.s3a.impl",
