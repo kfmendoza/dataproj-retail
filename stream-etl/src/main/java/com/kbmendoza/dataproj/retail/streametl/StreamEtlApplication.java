@@ -46,11 +46,9 @@ public class StreamEtlApplication {
                 .option("sep", ",")
                 .option("header", true)
                 .schema(schema)
-                .csv("s3a://dataproj/data/retail/input/invoice-dump/*.csv");
+                .csv("hdfs://localhost:19000/data/retail/input/invoice-dump/*.csv");
 
         streamEtlService.transformInvoice(invoiceDF);
-
-        //Dataset<Row> ratingDF = spark
     }
 
 

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 import static org.apache.spark.sql.functions.*;
+import static org.apache.spark.sql.types.DataTypes.StringType;
 import static org.apache.spark.sql.types.DataTypes.TimestampType;
 
 @Service
@@ -42,8 +43,9 @@ public class InvoiceStreamEtlService {
                 .add("code", "string");
         country = spark.getSparkSession()
                 .read()
+                .schema(schema)
                 .option("header", "true")
-                .csv("s3a://dataproj/data/retail/output/dim_country");
+                .csv("hdfs://localhost:19000/data/retail/output/dim_country");
 
 
         /*spark.getSparkSession().streams().addListener(new StreamingQueryListener() {
@@ -67,37 +69,39 @@ public class InvoiceStreamEtlService {
                .withColumn("invoice_timestamp",to_timestamp(unix_timestamp(col("InvoiceDate"),"d M yyyy H:mm").cast(TimestampType)))
                .select(
                        col("InvoiceNo").alias("invoice_no"),
-                       regexp_replace(col("CustomerID"), "[A-Za-z]", "").alias("customer_id"),
-                       regexp_replace(col("StockCode"), "[A-Za-z]", "").alias("product_code"),
+                       //regexp_replace(col("CustomerID"), "[A-Za-z]", "").alias("customer_id"),
+                       //regexp_replace(col("StockCode"), "[A-Za-z]", "").alias("product_code"),
+                       col("CustomerID").alias("customer_id"),
+                       col("StockCode").alias("product_code"),
                        col("UnitPrice").alias("actual_unit_price"),
                        col("Quantity").alias("units"),
                        col("country_code"),
-                       to_date(col("invoice_timestamp")).as("invoice_date"),
+                       to_date(col("invoice_timestamp")).as("invoice_date").cast(StringType),
                        date_format(col("invoice_timestamp"), "yyyyMMddHHmmss").alias("date_id")
                 );
 
-       invoiceDFClean = invoiceDFClean
+       /*invoiceDFClean = invoiceDFClean
                         .where(not(col("InvoiceNo").startsWith("C")
-                                .or(col("Quantity").$less$eq(0))));
-
+                                .or(col("Quantity").$less$eq(0))));*/
+       invoiceDFClean = invoiceDFClean
+               .withColumn("status", when(col("invoice_no").startsWith("C"), "0").otherwise(1));
        //WindowSpec windowSpec = Window.partitionBy("invoice_no").orderBy(asc("invoice_timestamp"));
        Dataset<FactInvoiceLine> factInvoiceLine = invoiceDFClean
-                .selectExpr("invoice_date", "invoice_no", "customer_id", "country_code", "product_code", "actual_unit_price", "units", "date_id")
+                .selectExpr("invoice_date", "invoice_no", "status", "customer_id", "country_code", "product_code", "actual_unit_price", "units", "date_id")
                 .as(Encoders.bean(FactInvoiceLine.class));
                 //.withColumn("invoice_line_no", row_number().over(windowSpec));
 
+       factInvoiceLine.printSchema();
 
        StreamingQuery invoiceQuery  = factInvoiceLine
                .writeStream()
-               .format("csv")
-               .option("header", "true")
-               .option("checkpointLocation", "s3a://dataproj-spark-checkpoints/dataproj-retail")
-               .option("path", "s3a://dataproj/data/retail/output/fact_invoice/")
+               .format("parquet")
+               .option("checkpointLocation", "hdfs://localhost:19000/spark-checkpoints/retail")
+               .option("path", "hdfs://localhost:19000/data/retail/output/fact_invoice_line/")
                .partitionBy("invoice_date")
                .outputMode(OutputMode.Append())
                .trigger(Trigger.ProcessingTime(trigger))
                .start();
-
 
        invoiceQuery.awaitTermination();
    }
