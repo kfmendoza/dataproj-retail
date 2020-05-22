@@ -17,7 +17,8 @@
    1. Is not scalable
    *Note: If you are interested in setting similar, see https://github.com/kfmendoza/dataproj-retail/blob/master/data-flow/README.md
 
-### Data Sources
+## Data Sources
+
 #### FILE UCI Online Retail Dataset
 - Download the dataset [here](https://archive.ics.uci.edu/ml/machine-learning-databases/00352/)
 - View the information [here](https://archive.ics.uci.edu/ml/datasets/online+retail)
@@ -27,9 +28,9 @@
 ##### STREAM TO KAFKA Fake Data Generator (ToDo: needs more work)
 - Source code here: https://github.com/kfmendoza/dataproj-retail/tree/master/fake-data-generator 
 
-### Data Ingestion
+## Data Ingestion
 Ingestion of Invoice Retail Dataset and Fake Data will be via ingested via SPARK STRUCTURED STREAMING and ingested into HDFS
-#### Data Preparation 
+### Data Preparation 
 - References like Product Info, Customer Info, Country refs are usually coming from an RDBMS (e.g. CRM or Portal database). 
 <br> In this case, data preparation was done via spark script. ToDo if AWS: spark-submit
 ### Streaming Application
@@ -39,14 +40,15 @@ Ingestion of Invoice Retail Dataset and Fake Data will be via ingested via SPARK
 #### Kafka (Message queue for event logs)
 - The fake data will be sent over to the kafka broker and ingested by Spark and Kafka streaming application
 
-### Data storage and warehouse
-This is more of a data lake warehouse with data tool Apache Hive, metastore is Derby 
-#### Data Models
+## Data storage and warehouse
+This is more of a data lake warehouse with data tool Apache Hive, metastore is Derby. *Note: Data lake cannot deduplicate. ToDo: Consider delta lake and supplement with Data warehouse with deduplication
+#### Logical Data Models
 - Logical data models are found here: https://github.com/kfmendoza/dataproj-retail/tree/master/data-model/logical.
+#### Physical Data Models
 - Physical data models are found here: https://github.com/kfmendoza/dataproj-retail/tree/master/data-model/logical
 ToDo: Assignment 2 needs more work here
 
-### Data Presentation 
+## Data Presentation 
 Analyses done is only BI and Descriptive Analytics. These are straightforward Spark SQLs on the Data Lake via Hive. Explorary Data Analysis will involve more complex functions and probably ML libs (e.g. Spark ML, Mahout)
 #### Data analysis
 Spark with Hive support was used to query Hive. Spark scripts (and SQL scripts) are here: https://github.com/kfmendoza/dataproj-retail/tree/master/data-analysis
