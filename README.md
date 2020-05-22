@@ -64,4 +64,14 @@ https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Revenue_159009719683
 https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Revenue_15900971968340/Sheet1
 https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Revenue_15900971968340/Sheet3
 
+## Assessment
+Objective: Propose further steps for application development and address areas missing in this assessment
+1. Operationalizing: Migrate all components to AWS, and practice infrastracture as a code see original plan https://github.com/kfmendoza/dataproj-retail/blob/master/data-flow/retail-orig.PNG
+1. Monitoring: Use Hue to submit SQL and analyses work, as well as ad-hoc and batch work
+1. Dataset curation: Some other datasets can be curated to supplement online retail dataset. Social Media and web scraping should be considered.
+1. Analysis: Perform exploratory analysis. Here are some of what I have in mind:
+- Market Basket analysis 
+- Churn rate prediction
+- NLP Sentiment analysis on Customer satisfaction level or reviews 
+
 
