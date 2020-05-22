@@ -49,7 +49,7 @@ This is more of a data lake warehouse with data tool Apache Hive, metastore is D
 ToDo: Assignment 2 needs more work here
 
 ## Data Presentation 
-Analyses done is only BI and Descriptive Analytics. These are straightforward Spark SQLs on the Data Lake via Hive. Explorary Data Analysis will involve more complex functions and probably ML libs (e.g. Spark ML, Mahout)
+Analyses done is only BI and Descriptive Analytics. These are straightforward Spark SQLs on the Data Lake via Hive. Exploratory Data Analysis will involve more complex functions and probably ML libs (e.g. Spark ML, Mahout)
 #### Data analysis
 Spark with Hive support was used to query Hive. Spark scripts (and SQL scripts) are here: https://github.com/kfmendoza/dataproj-retail/tree/master/data-analysis
 #### Data Viz
