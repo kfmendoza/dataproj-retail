@@ -18,13 +18,13 @@
    *Note: If you are interested in setting similar, see https://github.com/kfmendoza/dataproj-retail/blob/master/data-flow/README.md
 
 ### Data Sources
-1. FILE: UCI Online Retail Dataset
+#### FILE UCI Online Retail Dataset
 - Download the dataset [here](https://archive.ics.uci.edu/ml/machine-learning-databases/00352/)
 - View the information [here](https://archive.ics.uci.edu/ml/datasets/online+retail)
 - CSV version is here https://github.com/kfmendoza/dataproj-retail/blob/master/dataset/OnlineRetail.csv
-1. FILE: Country Master List File
+#### FILE Country Master List File
 - Countries with their ISO 2-letter code here https://github.com/kfmendoza/dataproj-retail/blob/master/dataset/country.csv
-1. STREAM TO KAFKA: Fake Data Generator (ToDo: needs more work)
+##### STREAM TO KAFKA Fake Data Generator (ToDo: needs more work)
 - Source code here: https://github.com/kfmendoza/dataproj-retail/tree/master/fake-data-generator 
 
 ### Data Ingestion
