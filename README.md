@@ -5,17 +5,10 @@ see https://github.com/kfmendoza/dataproj-retail/wiki/Data-Flow
 # Data Sources
 https://github.com/kfmendoza/dataproj-retail/wiki/Data-Sources
 
-## Data Ingestion
-Ingestion of Invoice Retail Dataset and Fake Data will be via ingested via SPARK STRUCTURED STREAMING and ingested into HDFS
-### Data Preparation 
-- References like Product Info, Customer Info, Country refs are usually coming from an RDBMS (e.g. CRM or Portal database). 
-<br> In this case, data preparation was done via spark script. ToDo if AWS: spark-submit
-### Streaming Application
-#### Spark Streaming Application (Can stream messages from Filesystem and Kafka)
-- Source code here: https://github.com/kfmendoza/dataproj-retail/tree/master/data-prep. 
-<br> This can be readily packaged into executable jar. ToDo if AWS: spark-submit
-#### Kafka (Message queue for event logs)
-- The fake data will be sent over to the kafka broker and ingested by Spark and Kafka streaming application
+## Data Ingestion and ETL
+- FileStream: https://github.com/kfmendoza/dataproj-retail/wiki/Data-Ingestion-and-ETL---FileStream
+- KafkaStream: https://github.com/kfmendoza/dataproj-retail/wiki/Data-Ingestion-and-ETL---KafkaStream
+- RDBMS: https://github.com/kfmendoza/dataproj-retail/wiki/Data-Ingestion-and-ETL---RDBMS
 
 ## Data storage and warehouse
 This is more of a data lake warehouse with data tool Apache Hive, metastore is Derby. *Note: Data lake cannot deduplicate. ToDo: Consider delta lake and supplement with Data warehouse with deduplication
