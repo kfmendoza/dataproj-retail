@@ -2,16 +2,8 @@
 
 ## Data Flow
 see https://github.com/kfmendoza/dataproj-retail/wiki/Data-Flow
-## Data Sources
-
-#### FILE UCI Online Retail Dataset
-- Download the dataset [here](https://archive.ics.uci.edu/ml/machine-learning-databases/00352/)
-- View the information [here](https://archive.ics.uci.edu/ml/datasets/online+retail)
-- CSV version is here https://github.com/kfmendoza/dataproj-retail/blob/master/dataset/OnlineRetail.csv
-#### FILE Country Master List File
-- Countries with their ISO 2-letter code here https://github.com/kfmendoza/dataproj-retail/blob/master/dataset/country.csv
-##### STREAM TO KAFKA Fake Data Generator (ToDo: needs more work)
-- Source code here: https://github.com/kfmendoza/dataproj-retail/tree/master/fake-data-generator 
+# Data Sources
+https://github.com/kfmendoza/dataproj-retail/wiki/Data-Sources
 
 ## Data Ingestion
 Ingestion of Invoice Retail Dataset and Fake Data will be via ingested via SPARK STRUCTURED STREAMING and ingested into HDFS
