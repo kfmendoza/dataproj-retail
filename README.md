@@ -1,22 +1,7 @@
 # Data Project - Online Retail
 
-## Data Flow 
-### How I identify data flow:
-1. Data sources
-1. Data ingestion
-1. Data storage and warehouse; and
-1. Data presentation
-#### Data platform deployment: Create an end to end data pipeline using public cloud components
-- Original plan is [here](https://github.com/kfmendoza/dataproj-retail/blob/master/data-flow/retail-orig.png), which is to deploy to AWS and use AWS components <br>
-  Considerations:
-   1. I am only using a Basic Tier and I am past Free limits
-   1. Limited internet connection
-- New plan is [here](https://github.com/kfmendoza/dataproj-retail/blob/master/data-flow/retail-new.png), which is to use local machine and use similar components
-  Considerations:
-   1. Laptop is quad-core and 8GB memory and may not accommodate concurrent running applications
-   1. Is not scalable
-   *Note: If you are interested in setting similar, see https://github.com/kfmendoza/dataproj-retail/blob/master/data-flow/README.md
-
+## Data Flow
+see https://github.com/kfmendoza/dataproj-retail/wiki/Data-Flow
 ## Data Sources
 
 #### FILE UCI Online Retail Dataset
@@ -54,15 +39,25 @@ Analyses done is only BI and Descriptive Analytics. These are straightforward Sp
 Spark with Hive support was used to query Hive. Spark scripts (and SQL scripts) are here: https://github.com/kfmendoza/dataproj-retail/tree/master/data-analysis
 #### Data Viz
 Please check my analysis (*Don't forget to check all sheets*):
-1. Customer Analysis
-* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/CustomerPerCountry/Sheet3
-* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/CustomerperDayoftheweek/Sheet1
+1. Customer Engagement Analysis
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/CustomerEngagement_15909579267610/Sheet1
+
 2. Product Analysis
-* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Top10Mostsellingproducts/Sheet1
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Product_15909576486420/Sheet1
+
 3. Revenue Analysis
-https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Revenue_15900971968340/Sheet2
-https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Revenue_15900971968340/Sheet1
-https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Revenue_15900971968340/Sheet3
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Revenue_15900971968340/Sheet2
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Revenue_15900971968340/Sheet1
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Revenue_15900971968340/Sheet3
+
+4. Demographics
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Demographics_15909574257670/Userview2
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Demographics_15909574257670/Userview1
+
+5. Geographical Analysis
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Geographical_15909575561200/Sheet1
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Geographical_15909575561200/Sheet2
+* https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Geographical_15909575561200/Sheet3
 
 ## Assessment
 Objective: Propose further steps for application development and address areas missing in this assessment
