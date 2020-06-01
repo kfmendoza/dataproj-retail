@@ -10,13 +10,8 @@ https://github.com/kfmendoza/dataproj-retail/wiki/Data-Sources
 - KafkaStream: https://github.com/kfmendoza/dataproj-retail/wiki/Data-Ingestion-and-ETL---KafkaStream
 - RDBMS: https://github.com/kfmendoza/dataproj-retail/wiki/Data-Ingestion-and-ETL---RDBMS
 
-## Data storage and warehouse
-This is more of a data lake warehouse with data tool Apache Hive, metastore is Derby. *Note: Data lake cannot deduplicate. ToDo: Consider delta lake and supplement with Data warehouse with deduplication
-#### Logical Data Models
-- Logical data models are found here: https://github.com/kfmendoza/dataproj-retail/tree/master/data-model/logical.
-#### Physical Data Models
-- Physical data models are found here: https://github.com/kfmendoza/dataproj-retail/tree/master/data-model/logical
-ToDo: Assignment 2 needs more work here
+## Data storage: Lake and warehouse
+https://github.com/kfmendoza/dataproj-retail/wiki/Data-models
 
 ## Data Presentation 
 Analyses done is only BI and Descriptive Analytics. These are straightforward Spark SQLs on the Data Lake via Hive. Exploratory Data Analysis will involve more complex functions and probably ML libs (e.g. Spark ML, Mahout)
