@@ -14,9 +14,9 @@ https://github.com/kfmendoza/dataproj-retail/wiki/Data-Sources
 https://github.com/kfmendoza/dataproj-retail/wiki/Data-models
 
 ## Data Presentation 
-Analyses done is only BI and Descriptive Analytics. These are straightforward Spark SQLs on the Data Lake via Hive. Exploratory Data Analysis will involve more complex functions and probably ML libs (e.g. Spark ML, Mahout)
-#### Data analysis
-Spark with Hive support was used to query Hive. Spark scripts (and SQL scripts) are here: https://github.com/kfmendoza/dataproj-retail/tree/master/data-analysis
+#### Data Analysis
+https://github.com/kfmendoza/dataproj-retail/wiki/Data-Analysis
+
 #### Data Viz
 Please check my analysis (*Don't forget to check all sheets*):
 1. Customer Engagement Analysis
@@ -40,10 +40,10 @@ Please check my analysis (*Don't forget to check all sheets*):
 * https://public.tableau.com/profile/krisna.mendoza#!/vizhome/Geographical_15909575561200/Sheet3
 
 ## Assessment
-Objective: Propose further steps for application development and address areas missing in this assessment
-1. Operationalizing: Migrate all components to AWS, and practice infrastracture as a code see original plan https://github.com/kfmendoza/dataproj-retail/blob/master/data-flow/retail-orig.PNG
-1. Monitoring: Use Hue to submit SQL and analyses work, as well as ad-hoc and batch work
-1. Dataset curation: Some other datasets can be curated to supplement online retail dataset. Social Media and web scraping should be considered.
+These are the further steps for application development and address areas missing in this assessment
+1. Operationalizing: Migrate all components to AWS, and practice infrastracture as a code 
+1. Monitoring: Use Hue to submit SQL and analyses work, as well as ad-hoc and batch work which we can use Oozie or Airflow.
+1. Dataset curation: Some other datasets can be curated to supplement online retail dataset. Social Media and web scraping should also be considered.
 1. Analysis: Perform exploratory analysis. Here are some of what I have in mind:
 - Market Basket analysis 
 - Churn rate prediction
