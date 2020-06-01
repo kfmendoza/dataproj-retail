@@ -45,7 +45,7 @@ public class InvoiceStreamEtlService {
                 .read()
                 .schema(schema)
                 .option("header", "true")
-                .csv("hdfs://localhost:19000/data/retail/output/dim_country");
+                .csv("s3a://dataproj/data/retail/output/dim_country");
 
 
         /*spark.getSparkSession().streams().addListener(new StreamingQueryListener() {
@@ -96,8 +96,8 @@ public class InvoiceStreamEtlService {
        StreamingQuery invoiceQuery  = factInvoiceLine
                .writeStream()
                .format("parquet")
-               .option("checkpointLocation", "hdfs://localhost:19000/spark-checkpoints/retail")
-               .option("path", "hdfs://localhost:19000/data/retail/output/fact_invoice_line/")
+               .option("checkpointLocation", "hdfs://localhost:8020/spark-checkpoints2/retail2")
+               .option("path", "s3a://dataproj/data/retail/output/fact_invoice_line2/")
                .partitionBy("invoice_date")
                .outputMode(OutputMode.Append())
                .trigger(Trigger.ProcessingTime(trigger))
